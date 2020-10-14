@@ -32,8 +32,27 @@ router.get('/logout', (req, res, next) => {
     res.redirect('/');
 });
 
-router.get('/profile', (req, res, next) => {
+// PROTECT MULTIPLE ROUTES
+// router.use((req, res, next) => {
+//     isAuthenticated(req, res, next);
+//     next();
+// });
+
+
+router.get('/profile', isAuthenticated, (req, res, next) => {
     res.render('profile');
 });
+
+// Exampre route
+// router.get('/dashboard', (req, res, next) => {
+//     res.send('Dashboard');
+// });
+
+function isAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect('/');
+};
 
 module.exports = router;
