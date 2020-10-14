@@ -17,18 +17,23 @@ router.post('/signup', passport.authenticate('local-signup', {
 }));
 
 router.get('/signin', (req, res, next) => {
-
+    res.render('signin');
 });
 
 
-router.post('/signin', (req, res, next) => {
+router.post('/signin', passport.authenticate('local-signin', {
+    successRedirect: '/profile',
+    failureRedirect: '/signin',
+    passReqToCallback: true
+}));
 
+router.get('/logout', (req, res, next) => {
+    req.logOut();
+    res.redirect('/');
 });
 
 router.get('/profile', (req, res, next) => {
     res.render('profile');
 });
-
-
 
 module.exports = router;
